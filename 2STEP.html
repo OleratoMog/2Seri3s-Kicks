@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2Seri3s Kicks</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        /* Basic Styling */
+        body {
+            font-family: sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #C6C5B8; /* Changed to light grey */
+            color: #000;
+        }
+
+        .container {
+            max-width: 860px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #D3D3D3;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #222;
+        }
+
+        /* Header Styles (for navigation) */
+        .header {
+            background-color: #333;
+            color: white;
+            padding: 10px 0;
+            text-align: left;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 860px; /* Match container width */
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .menu-icon {
+            font-size: 1.5em;
+            cursor: pointer;
+        }
+
+        .menu {
+            position: absolute;
+            top: 50px; /* Adjust as needed */
+            left: 20px; /* Adjust as needed */
+            background-color: #333;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            z-index: 10;
+            display: none;  /* Hidden by default */
+        }
+
+        .menu a {
+            display: block;
+            padding: 8px 15px;
+            text-decoration: none;
+            color: white;
+            border-radius: 5px;
+        }
+
+        .menu a:hover {
+            background-color: #555;
+        }
+
+        /* Intro Page Styles */
+        .intro-page {
+            text-align: center;
+        }
+
+        .logo {
+            max-width: 300px; /* Adjust size as needed */
+            margin: 30px auto; /* Center the logo */
+            display: block; /* Ensure it's block-level for centering */
+        }
+
+        .intro-text {
+            margin-bottom: 20px;
+        }
+
+        .intro-text p {
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .shop-button {
+            background-color: #333;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.1em;
+            cursor: pointer;
+            border-radius: 5px;
+            text-decoration: none; /* Remove underline from link */
+            display: inline-block; /* Allow padding and margin */
+            margin-top: 20px;
+        }
+
+        .shop-button:hover {
+            background-color: #555;
+        }
+
+         /* Carousel Styles (Keep existing styles) */
+        .carousel-container {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            margin-top: 20px; /* Add space above the carousel */
+        }
+
+        .carousel-slides {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+            width: 100%;
+        }
+
+        .slide {
+            width: 100%;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative; /* For absolute positioning of the "Add to Cart" button */
+        }
+
+        .slide img {
+            width: 80%;
+            height: auto;
+            object-fit: cover;
+            margin-bottom: 10px;
+        }
+
+        .slide .sneaker-info {
+            text-align: center;
+        }
+
+        .carousel-buttons {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .carousel-buttons button {
+            background-color: #333;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 0 10px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .carousel-buttons button:hover {
+            background-color: #555;
+        }
+
+        /* Add to Cart button */
+        .add-to-cart-button {
+            background-color: #4CAF50; /* Green */
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 5px;
+            position: absolute; /* Position relative to the slide */
+            bottom: 10px; /* Position at the bottom */
+            left: 50%; /* Center horizontally */
+            transform: translateX(-50%);
+            z-index: 1; /* Ensure it's above other content */
+        }
+
+        .add-to-cart-button:hover {
+            background-color: #3e8e41;
+        }
+
+        /* Size selection */
+        .size-selection {
+            margin-top: 10px;
+        }
+
+        .size-selection label {
+            margin-right: 10px;
+        }
+
+        .size-selection select {
+            padding: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        /* Cart Page */
+        #cartPage {
+            display: none; /* Hidden initially */
+        }
+
+        #cartPage h1 {
+            text-align: center;
+        }
+
+        #cartItems {
+            margin-top: 20px;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .cart-item img {
+            width: 50px; /* Adjust size as needed */
+            height: auto;
+            margin-right: 10px;
+        }
+
+        .cart-item-details {
+            flex-grow: 1;
+        }
+
+        .cart-item-actions {
+            text-align: right;
+        }
+
+        .checkout-button {
+            background-color: #008CBA; /* Blue */
+            border: none;
+            color: white;
+            padding: 15px 30px;
+            font-size: 1.1em;
+            cursor: pointer;
+            border-radius: 5px;
+            text-decoration: none;
+            display: block;
+            margin: 20px auto;
+            text-align: center;
+        }
+
+        .checkout-button:hover {
+            background-color: #0077A0;
+        }
+
+         /* Checkout Page */
+        #checkoutPage {
+            display: none; /* Hidden initially */
+        }
+
+        #checkoutPage h1 {
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="email"],
+        .form-group input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box; /* Important for padding not to affect width */
+        }
+
+        .payment-button {
+            background-color: #4CAF50; /* Green */
+            border: none;
+            color: white;
+            padding: 15px 30px;
+            font-size: 1.1em;
+            cursor: pointer;
+            border-radius: 5px;
+            text-decoration: none;
+            display: block;
+            margin: 20px auto;
+            text-align: center;
+        }
+
+        .payment-button:hover {
+            background-color: #3e8e41;
+        }
+
+        /* Confirmation Page */
+        #confirmationPage {
+            display: none; /* Hidden initially */
+            text-align: center;
+        }
+
+        #confirmationPage h1 {
+            color: #4CAF50; /* Green */
+        }
+
+        /* Cart Icon Styles */
+        .cart-icon {
+            font-size: 1.5em;
+            cursor: pointer;
+        }
+
+        .cart-link {
+            color: white;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header (Navigation) -->
+    <div class="header">
+        <div class="header-container">
+            <div class="menu-icon" onclick="toggleMenu()">☰</div>
+            <div class="menu" id="menu">
+                <a href="#introPage" onclick="showIntroPage()">Home</a>
+                <a href="#aboutUsPage" onclick="showAboutUsPage()">More Info About Us</a>
+                <a href="#cartPage" onclick="showCartPage()">Cart (<span id="cartCount">0</span>)</a>
+            </div>
+             <!-- Cart Icon -->
+             <a href="#cartPage" onclick="showCartPage()" class="cart-link">
+                <i class="fas fa-shopping-cart cart-icon"></i>
+            </a>
+        </div>
+    </div>
+
+    <!-- Introductory Page -->
+    <div id="introPage" class="container intro-page">
+        <img src="logo.png" alt=" 2Step Kicks" class="logo"> <!-- Replace with your logo -->
+        <div class="intro-text">
+			<h1 style="font-size: 36px; color: maroon;"><head><b><ul><u>2Seri3s Kicks</u></ul></b></head></h1>
+            <p><b>Welcome to 2Seri3s Kicks, your ultimate destination for the most coveted and stylish sneakers! We're passionate about footwear and dedicated to providing you with an exceptional selection of kicks to elevate your style.</b></p>
+            <p><b>At 2Seri3s Kicks, we carefully curate our collection to include both classic favorites and the latest releases from top brands. From iconic Air Jordans to innovative Ultraboosts and timeless Chuck Taylors, we've got something for every sneakerhead.</b></p>
+            <p><b>Our commitment extends beyond just offering great sneakers. We strive to create a community for sneaker enthusiasts, providing a space where you can explore, discover, and share your love for footwear. Join us and step into the world of 2Seri3s Kicks!</b></p>
+        </div>
+        <a href="#sneakerPage" class="shop-button" onclick="showSneakerPage()">Shop Available Sneakers</a>
+    </div>
+
+    <!-- Sneaker Page (Hidden initially) -->
+    <div id="sneakerPage" class="container" style="display:none;">
+        <h1>2.Seri3s Kicks - Shop</h1>
+        <!-- Carousel Content (unchanged from previous version) -->
+        <div class="carousel-container">
+            <div class="carousel-slides" id="carouselSlides">
+                <div class="slide">
+                    <img src="AirMax90.jpg" alt="Air Max 90">
+                    <div class="sneaker-info">
+                        <h2>Air Max 90</h2>
+                        <p>The Air Max 90 is a classic sneaker known for its comfortable cushioning and iconic design. Originally released in 1990, it's a timeless favorite for both performance and style. Features include the visible Air unit in the heel and a durable rubber outsole.</p>
+                        <p>it's considered a cornerstone of sneaker culture, recognized for its visible air cushion unit and iconic "Infrared" colorway, which is a striking shade of red on the original design; this shoe is known for its comfortable fit and classic aesthetic.</p>
+                        <p>Making it a popular choice for both casual wear and athletic activities.</p>
+                        <p><b>R 3000. 00</b></p>
+                        <div class="size-selection">
+                            <label for="sizeAirMax90">Size:</label>
+                            <select id="sizeAirMax90">
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                            </select>
+                        </div>
+                        <button class="add-to-cart-button" onclick="addToCart('Air Max 90', 3000, 'sizeAirMax90', 'AirMax90.jpg')">Add to Cart</button>
+                    </div>
+                </div>
+
+                <div class="slide">
+                    <img src="ULTRABOOST22.jpg" alt="Ultraboost 22">
+                    <div class="sneaker-info">
+                        <h2> ADIDAS Ultraboost 22</h2>
+                        <p>The Adidas Ultraboost 22 combines comfort and performance with its responsive Boost midsole and Primeknit upper. </p>
+                        <p>Perfect For: Tackling long distance runs that need some extra cushioning. Soft Heel Fit: A more comfortable feel</p>
+                        <p>That's tailored to foot anatomy. Fit Cage: Embedded Cage and Adaptive lacing system enhance stability and lockdown for a comfortable midfoot fit.</p>
+                        <p><b>R 1799. 00</b></p>
+                        <div class="size-selection">
+                            <label for="sizeUltraboost22">Size:</label>
+                            <select id="sizeUltraboost22">
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                            </select>
+                        </div>
+                        <button class="add-to-cart-button" onclick="addToCart('Ultraboost 22', 1799, 'sizeUltraboost22', 'ULTRABOOST22.jpg')">Add to Cart</button>
+                    </div>
+                </div>
+
+                <div class="slide">
+                    <img src="Jordan1.jpg" alt="Air Jordan 1">
+                    <div class="sneaker-info">
+                        <h2>Air Jordan 1 Retro</h2>
+                        <p>The iconic Air Jordan 1, a staple in sneaker culture. Features a classic design and premium materials.</p>
+                        <p>The first Air Jordan shoe was produced for basketball player Michael Jordan during his time with the </p>
+                        <p>Chicago Bulls on November 17, 1984, and released to the public on April 1, 1985</p>
+                        <p><b>R 3299. 00</b></p>
+                        <div class="size-selection">
+                            <label for="sizeJordan1">Size:</label>
+                            <select id="sizeJordan1">
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                            </select>
+                        </div>
+                        <button class="add-to-cart-button" onclick="addToCart('Air Jordan 1', 3299, 'sizeJordan1', 'Jordan1.jpg')">Add to Cart</button>
+                    </div>
+                </div>
+
+                <div class="slide">
+                    <img src="AllStar.jpg" alt="Chuck Taylor All Star">
+                    <div class="sneaker-info">
+                        <h2>Chuck Taylor All Star</h2>
+                        <p>A timeless classic, the Chuck Taylor All Star is a versatile sneaker. Canvas upper and rubber sole.</p>
+                        <p>Converse started making an early basketball shoe in 1917 and redesigned it in 1922.</p>
+                        <p>When Chuck Taylor asked the company to create a better shoe with more support and flexibility.</p>
+                        <p>After Converse added Taylor's signature to the ankle patch they became known as Chuck Taylor All Stars.</p>
+                        <p><b>R 1899. 00</b></p>
+                        <div class="size-selection">
+                            <label for="sizeAllStar">Size:</label>
+                            <select id="sizeAllStar">
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                            </select>
+                        </div>
+                        <button class="add-to-cart-button" onclick="addToCart('Chuck Taylor All Star', 1899, 'sizeAllStar', 'AllStar.jpg')">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-buttons">
+                <button onclick="prevSlide()">Previous</button>
+                <button onclick="nextSlide()">Next</button>
+            </div>
+        </div>
+    </div>
+
+     <!-- Cart Page -->
+     <div id="cartPage" class="container" style="display:none;">
+        <h1>Shopping Cart</h1>
+        <div id="cartItems">
+            <!-- Cart items will be dynamically added here using JavaScript -->
+        </div>
+        <a href="#checkoutPage" class="checkout-button" onclick="showCheckoutPage()">Proceed to Checkout</a>
+    </div>
+
+    <!-- Checkout Page -->
+    <div id="checkoutPage" class="container" style="display:none;">
+        <h1>Checkout</h1>
+        <form id="checkoutForm">
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="address">Address:</label>
+                <input type="text" id="address" name="address" required>
+            </div>
+            <div class="form-group">
+                <label for="phoneNumber">Phone Number:</label>
+                <input type="number" id="phoneNumber" name="phoneNumber" required>
+            </div>
+            <a href="#confirmationPage" class="payment-button" onclick="showConfirmationPage()">Complete Payment</a>
+        </form>
+    </div>
+
+    <!-- Confirmation Page -->
+    <div id="confirmationPage" class="container" style="display:none;">
+        <h1>Payment Successful!</h1>
+        <p>Thank you for your order! Your sneakers will be shipped soon.</p>
+    </div>
+
+    <!-- About Us Page -->
+    <div id="aboutUsPage" class="container" style="display:none;">
+        <h1>More Info About Us</h1>
+        <p><b> We're passionate about footwear and dedicated to providing you with an exceptional selection of kicks to elevate your style.</b></p>
+        <p><b>At 2Seri3s Kicks, we carefully curate our collection to include both classic favorites and the latest releases from top brands. From iconic Air Jordans to innovative Ultraboosts and timeless Chuck Taylors, we've got something for every sneakerhead.</b></p>
+        <p><b>Our commitment extends beyond just offering great sneakers. We strive to create a community for sneaker enthusiasts, providing a space where you can explore, discover, and share your love for footwear. Join us and step into the world of 2Seri3s Kicks!</b></p>
+    </div>
+
+    <script>
+        let slideIndex = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        let cart = [];
+
+        function showPage(pageId) {
+            // Hide all pages
+            document.querySelectorAll('.container').forEach(page => {
+                page.style.display = 'none';
+            });
+
+            // Show the requested page
+            document.getElementById(pageId).style.display = 'block';
+        }
+
+        function showIntroPage() {
+            showPage('introPage');
+        }
+
+        function showSneakerPage() {
+            showPage('sneakerPage');
+        }
+
+        function showCartPage() {
+            showPage('cartPage');
+            displayCart();
+        }
+
+        function showCheckoutPage() {
+            showPage('checkoutPage');
+        }
+
+        function showConfirmationPage() {
+            showPage('confirmationPage');
+        }
+
+        function showAboutUsPage() {
+            showPage('aboutUsPage');
+        }
+
+        function nextSlide() {
+            slideIndex = (slideIndex + 1) % totalSlides;
+            updateCarousel();
+        }
+
+        function prevSlide() {
+            slideIndex = (slideIndex - 1 + totalSlides) % totalSlides;
+            updateCarousel();
+        }
+
+        function updateCarousel() {
+            const translateValue = -slideIndex * 100 + '%';
+            document.getElementById('carouselSlides').style.transform = 'translateX(' + translateValue + ')';
+        }
+
+        function addToCart(name, price, sizeId, imageSrc) {
+            const size = document.getElementById(sizeId).value;
+            const item = {
+                name: name,
+                price: price,
+                size: size,
+                imageSrc: imageSrc
+            };
+            cart.push(item);
+            updateCartCount();
+            displayCart(); // Update the cart display
+        }
+
+        function updateCartCount() {
+            document.getElementById('cartCount').innerText = cart.length;
+        }
+
+        function displayCart() {
+            const cartItemsDiv = document.getElementById('cartItems');
+            cartItemsDiv.innerHTML = ''; // Clear existing content
+
+            let total = 0; // Initialize total
+
+            cart.forEach((item, index) => {
+                const cartItemDiv = document.createElement('div');
+                cartItemDiv.classList.add('cart-item');
+
+                const img = document.createElement('img');
+                img.src = item.imageSrc;
+                img.alt = item.name;
+                cartItemDiv.appendChild(img);
+
+                const detailsDiv = document.createElement('div');
+                detailsDiv.classList.add('cart-item-details');
+                detailsDiv.innerHTML = `
+                    <h3>${item.name}</h3>
+                    <p>Size: ${item.size}</p>
+                    <p>Price: R ${item.price.toFixed(2)}</p>
+                `;
+                cartItemDiv.appendChild(detailsDiv);
+
+                const actionsDiv = document.createElement('div');
+                actionsDiv.classList.add('cart-item-actions');
+                const removeButton = document.createElement('button');
+                removeButton.innerText = 'Remove';
+                removeButton.onclick = () => removeFromCart(index);
+                actionsDiv.appendChild(removeButton);
+                cartItemDiv.appendChild(actionsDiv);
+
+                 cartItemsDiv.appendChild(cartItemDiv);
+
+                total += item.price;
+            });
+
+            // Display total
+            const totalDiv = document.createElement('div');
+            totalDiv.innerHTML = `<strong>Total: R ${total.toFixed(2)}</strong>`;
+            cartItemsDiv.appendChild(totalDiv);
+
+            updateCartCount(); // Update cart count
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1); // Remove item from cart
+            displayCart(); // Update the cart display
+            updateCartCount(); // Update cart count
+        }
+
+        function toggleMenu() {
+            var menu = document.getElementById("menu");
+            if (menu.style.display === "block") {
+                menu.style.display = "none";
+            } else {
+                menu.style.display = "block";
+            }
+        }
+
+        // Initialize
+        updateCartCount();
+    </script>
+
+</body>
+</html>
